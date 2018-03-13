@@ -63,13 +63,16 @@ public class HelloResource {
   		/* Total amount of free memory available to the JVM */
 		sb.append("Free memory: " + getReadableByteCount(Runtime.getRuntime().freeMemory())).append(System.lineSeparator());
 
-  		/* This will return Long.MAX_VALUE if there is no preset limit */
-		long maxMemory = Runtime.getRuntime().maxMemory();
-  		/* Maximum amount of memory the JVM will attempt to use */
-		sb.append("Maximum memory: " + (maxMemory == Long.MAX_VALUE ? "no limit" : getReadableByteCount(maxMemory))).append(System.lineSeparator());
+  		/* Total amount of used memory */
+        sb.append("Used memory: " + getReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())).append(System.lineSeparator());
 
   		/* Total memory currently in use by the JVM */
 		sb.append("Total memory: " + getReadableByteCount(Runtime.getRuntime().totalMemory())).append(System.lineSeparator());
+
+		/* This will return Long.MAX_VALUE if there is no preset limit */
+        long maxMemory = Runtime.getRuntime().maxMemory();
+  		/* Maximum amount of memory the JVM will attempt to use */
+        sb.append("Maximum memory: " + (maxMemory == Long.MAX_VALUE ? "no limit" : getReadableByteCount(maxMemory))).append(System.lineSeparator());
 
         logger.info(sb.toString());
 		return sb.toString();
