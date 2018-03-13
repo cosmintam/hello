@@ -52,4 +52,31 @@ public class HelloResource {
 		return new Date().toString();
 	}
 
+	@GET
+	@Path("/resources")
+	public String getResources() {
+		StringBuilder sb = new StringBuilder();
+
+		/* Total number of processors or cores available to the JVM */
+		sb.append("Available processors (cores): " + Runtime.getRuntime().availableProcessors()).append(System.lineSeparator());
+
+  		/* Total amount of free memory available to the JVM */
+		sb.append("Free memory: " + getReadableByteCount(Runtime.getRuntime().freeMemory())).append(System.lineSeparator());
+
+  		/* This will return Long.MAX_VALUE if there is no preset limit */
+		long maxMemory = Runtime.getRuntime().maxMemory();
+  		/* Maximum amount of memory the JVM will attempt to use */
+		sb.append("Maximum memory: " + (maxMemory == Long.MAX_VALUE ? "no limit" : getReadableByteCount(maxMemory))).append(System.lineSeparator());
+
+  		/* Total memory currently in use by the JVM */
+		sb.append("Total memory: " + getReadableByteCount(Runtime.getRuntime().totalMemory())).append(System.lineSeparator());
+
+        logger.info(sb.toString());
+		return sb.toString();
+	}
+
+	private String getReadableByteCount(long bytes) {
+		return String.format("%.1f MB", bytes / Math.pow(1024, 2));
+	}
+
 }
